@@ -12,7 +12,9 @@
   "devDependencies": {
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "handlebars": "^4.0.5",
     "hbs": "^4.0.0",
-    "nodemon": "^1.9.1"
+    "nodemon": "^1.9.1",
+    "websocket": "^1.0.22"
   }
 }
