@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Poll</title>
-</head>
-<body>
-    <h1>Poll</h2>
-    <h2>Wie is jouw favoriete docent?</h2>
-    <section>
-        {{#each votesByAnswers}}
-            <div>
-                {{label}} - {{ votes }}
-            </div>
-        {{/each}}
-    </section>
-    <div>
-        Jij hebt gestemt op: {{userVote.label}}
-    </div>
-</body>
-</html>
+<div id="results">
+    {{#each votesByAnswers}}
+        <div>
+            {{label}} - {{ votes }}
+        </div>
+    {{/each}}
+</div>
+<div>
+    Jij hebt gestemt op: {{userVote.label}}
+</div>
+

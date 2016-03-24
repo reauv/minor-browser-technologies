@@ -1,11 +1,12 @@
+var path = require('path');
 var express = require('express');
 var session = require('express-session');
 
 var server = express();
 
-
 server.set('view engine', 'hbs');
 server.use(session({secret: 'secret'}));
+server.use(express.static(path.join(__dirname, 'public')));
 
 var answers = [
     { id: '1', label: 'Krijn' },
@@ -64,6 +65,38 @@ server.get('/', function (request, response) {
     }
 
     return response.render('vote', { answers: answers });
+});
+
+/**
+ * JSON API
+ */
+server.get('/api/vote/:id', function (request, response) {
+    if(request.params.id && !request.session.voted) {
+        request.session.voted = true;
+        votes.push({
+            session: request.session.id,
+            answer: request.params.id,
+        });
+
+        response.end('Ok');
+    }
+
+    response.status(403);
+    response.end('You are not allowed to cast a vote');
+});
+
+/**
+ * HTML API
+ */
+server.get('/api/html/results', function (request, response) {
+    return response.render(
+        'results',
+        {
+            layout: false,
+            votesByAnswers: getVotesByAnswers(),
+            userVote: getUserVote(request.session.id)
+        }
+    )
 });
 
 console.log('Listening at localhost on port 8080');

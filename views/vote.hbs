@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Poll</title>
-</head>
-<body>
-    <h1>Poll</h2>
-    <h2>Wie is jouw favoriete docent?</h2>
-    <section>
-        <form>
-            {{#each answers}}
-                <div>
-                    <input type="radio" name="answer" value="{{id}}" id="answer-{{id}}">
-                    <label for="answer-{{id}}">{{label}}</label>
-                </div>
-            {{/each}}
-            <button type="submit">Stem</input>
-        </form>
-    </section>
-</body>
-</html>
+<form id="form">
+    {{#each answers}}
+        <div>
+            <input type="radio" name="answer" value="{{id}}" id="answer-{{id}}" class="answer">
+            <label for="answer-{{id}}">{{label}}</label>
+        </div>
+    {{/each}}
+    <button type="submit" id="vote">Stem</input>
+</form>
