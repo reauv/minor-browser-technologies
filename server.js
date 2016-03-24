@@ -89,6 +89,8 @@ function getClient(id) {
 app.get('/', function (request, response) {
     var client = getClient(request.cookies.id);
 
+    response.cookie('id', client.id, { expires: new Date(Date.now() + 900000), httpOnly: true });
+
     if(request.query.answer && !client.voted) {
         client.voted = true;
         votes.push({
