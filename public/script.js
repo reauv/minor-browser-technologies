@@ -130,9 +130,7 @@
         }
     }
 
-    if (!document.query)
-
-    if('WebSocket' in window || 'MozWebSocket' in window) {
+    if('WebSocket' in window) {
         document.querySelector('html').classList.add('js');
         websockets.init();
     } else {
