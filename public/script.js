@@ -9,7 +9,7 @@
         resultsContainer.innerHTML = '';
         results.forEach(function(result) {
             var el = document.createElement('div');
-            el.innerHTML = result.label + ' - ' + result.votes + ' stemmen'
+            el.innerHTML = result.label + ' - ' + result.votes + ' votes'
             resultsContainer.appendChild(el);
         });
     };
