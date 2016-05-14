@@ -89,9 +89,6 @@ function getClient(id) {
 app.get('/', function (request, response) {
     var client = getClient(request.cookies.client_id);
 
-    console.log('Client:');
-    console.log(client);
-
     response.cookie('client_id', client.id, { expires: new Date(Date.now() + 900000) });
 
     if(request.query.answer && !client.voted) {
@@ -243,7 +240,7 @@ wsOutput = {
         }
 
         clients.forEach(function(client) {
-            if (client.voted) {
+            if (client.voted && client.connection) {
                 client.connection.send(JSON.stringify(message));
             }
         });
