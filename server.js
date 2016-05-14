@@ -87,9 +87,12 @@ function getClient(id) {
  * HTTP server
  */
 app.get('/', function (request, response) {
-    var client = getClient(request.cookies.id);
+    var client = getClient(request.cookies.client_id);
 
-    response.cookie('id', client.id, { expires: new Date(Date.now() + 900000), httpOnly: true });
+    console.log('Client:');
+    console.log(client);
+
+    response.cookie('client_id', client.id, { expires: new Date(Date.now() + 900000) });
 
     if(request.query.answer && !client.voted) {
         client.voted = true;
@@ -114,7 +117,7 @@ app.get('/', function (request, response) {
  * JSON API
  */
 app.get('/api/vote/:id', function (request, response) {
-    var client = getClient(request.cookies.id);
+    var client = getClient(request.cookies.client_id);
 
     if(request.params.id && !client.voted) {
         client.voted = true;

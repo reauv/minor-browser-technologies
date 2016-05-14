@@ -3,7 +3,7 @@
     var formContainer = document.querySelector('#form');
     var content = document.querySelector('#content');
     var voteButton = document.querySelector('#vote');
-    var WEBSOCKET_HOST = 'ws://145.28.120.199:8888';
+    var WEBSOCKET_HOST = 'ws://localhost:8888';
 
     function updateResults(results) {
         resultsContainer.innerHTML = '';
@@ -69,12 +69,13 @@
         connection: null,
 
         setupConnection: function() {
-            var id = Cookies.get('id');
+            var id = Cookies.get('client_id');
             this.connection = new WebSocket(WEBSOCKET_HOST + '?id=' + id, 'echo-protocol');
 
-            this.connection.onopen = function() {
-                console.log('Connection open');
-            }
+            this.connection.onclose = function (error) {
+                this.destroy();
+                ajax.init();
+            }.bind(this);
 
             this.connection.onmessage = function(message) {
                 var data = JSON.parse(message.data);
@@ -93,22 +94,22 @@
                     this.onNewVote(data);
                 }
             }.bind(this);
-
-            this.connection.onclose = function() {
-                console.log('Connection closed');
-            }
         },
 
         onVoteButtonClick: function() {
+            if (this.connection.readyState !== this.connection.OPEN) {
+                return ajax.onVoteButtonClick();
+            }
+
             var answer = document.querySelector('input[name="answer"]:checked');
             var value = answer.value;
 
-            event.preventDefault();
             this.connection.send(JSON.stringify({ type: 'vote', value: value }));
+            event.preventDefault();
         },
 
         onConnected: function(data) {
-            Cookies.set('id', data.payload.id);
+            Cookies.set('client_id', data.payload.id);
         },
 
         onVoteProcessed: function() {
@@ -126,6 +127,12 @@
 
             if(voteButton) {
                 voteButton.addEventListener('click', this.onVoteButtonClick.bind(this));
+            }
+        },
+
+        destroy: function() {
+            if(voteButton) {
+                voteButton.removeEventListener('click', this.onVoteButtonClick);
             }
         }
     }
