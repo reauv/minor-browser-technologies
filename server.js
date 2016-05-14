@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var http = require('http');
+var env = require('./env');
 var express = require('express');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -147,8 +148,8 @@ app.get('/api/html/results', function (request, response) {
     )
 });
 
-server.listen(8080, function() {
-    console.log((new Date()) + ' HTTP Server is listening on port 8080');
+server.listen(env.PORT, function() {
+    console.log((new Date()) + ' HTTP Server is listening on port ' + env.PORT);
 });
 
 /**
@@ -247,6 +248,6 @@ wsOutput = {
     }
 }
 
-wsHttpServer.listen(8888, function() {
-    console.log((new Date()) + ' Websocket Server is listening on port 8888');
+wsHttpServer.listen(env.WEBSOCKET_PORT, function() {
+    console.log((new Date()) + ' Websocket Server is listening on port ' + env.WEBSOCKET_PORT);
 });
