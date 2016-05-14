@@ -3,7 +3,7 @@
     var formContainer = document.querySelector('#form');
     var content = document.querySelector('#content');
     var voteButton = document.querySelector('#vote');
-    var WEBSOCKET_HOST = 'ws://localhost:8888';
+    var WEBSOCKET_HOST = window.WEBSOCKET_URL;
 
     function updateResults(results) {
         resultsContainer.innerHTML = '';
