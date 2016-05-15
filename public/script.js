@@ -1,9 +1,31 @@
 (function() {
+
+
     var resultsContainer = document.querySelector('#results');
     var formContainer = document.querySelector('#form');
     var content = document.querySelector('#content');
     var voteButton = document.querySelector('#vote');
     var WEBSOCKET_HOST = window.WEBSOCKET_URL;
+
+    function hasRequirements() {
+        return (
+            !!document.querySelector &&
+            !!Function.prototype.bind
+        );
+    }
+
+    function isIE() {
+        var nav = navigator.userAgent.toLowerCase();
+
+        return (nav.indexOf('msie') != -1)
+            ? parseInt(nav.split('msie')[1])
+            : false;
+    }
+
+    function patchConsole() {
+        if (!window.console) window.console = {};
+        if (!window.console.log) window.console.log = function () { };
+    }
 
     function updateResults(results) {
         resultsContainer.innerHTML = '';
@@ -13,6 +35,7 @@
             resultsContainer.appendChild(el);
         });
     };
+
 
     function hideForm() {
         formContainer.style.display = 'none';
@@ -33,25 +56,28 @@
     ajax = {
         fetchResults: function() {
             var request = new XMLHttpRequest();
-            request.open('GET', '/api/results', true);
+            request.open('GET', '/api/results?' + Date.now(), true);
             request.send();
 
             request.onload = function() {
                 if (request.status >= 200 && request.status < 400) {
                     var data = JSON.parse(request.responseText);
-                    hideForm();
-                    showResults();
+                    if (formContainer) {
+                        hideForm();
+                        showResults();
+                    }
+
                     updateResults(data);
                 }
             }
         },
 
-        onVoteButtonClick: function() {
+        onVoteButtonClick: function(event) {
             var answer = document.querySelector('input[name="answer"]:checked');
             var value = answer.value;
 
             var request = new XMLHttpRequest();
-            request.open('GET', '/api/vote/' + value, true);
+            request.open('GET', '/api/vote/' + value + '?' + Date.now(), true);
             request.send();
 
             request.onload = function () {
@@ -69,6 +95,8 @@
 
             if(voteButton) {
                 voteButton.addEventListener('click', this.onVoteButtonClick.bind(this));
+            } else {
+                setInterval(this.fetchResults, 6000);
             }
         }
     },
@@ -145,11 +173,17 @@
         }
     }
 
-    addClass(document.querySelector('html'), 'js');
+    if(!hasRequirements() || (isIE() && isIE() < 9)) {
+        return false;
+    }
 
-    if('WebSocket' in window) {
+    patchConsole();
+
+    if('WebSocked' in window) {
         websockets.init();
     } else {
         ajax.init();
     }
+
+    addClass(document.querySelector('html'), 'js');
 }());
