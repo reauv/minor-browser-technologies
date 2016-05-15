@@ -22,6 +22,14 @@
         resultsContainer.style.display = 'block';
     }
 
+    function addClass(el, className) {
+        if (el.classList) {
+          el.classList.add(className);
+        } else {
+          el.className += ' ' + className;
+        }
+    }
+
     ajax = {
         fetchResults: function() {
             var request = new XMLHttpRequest();
@@ -137,11 +145,11 @@
         }
     }
 
+    addClass(document.querySelector('html'), 'js');
+
     if('WebSocket' in window) {
-        document.querySelector('html').classList.add('js');
         websockets.init();
     } else {
-        document.querySelector('html').classList.add('js');
         ajax.init();
     }
 }());
