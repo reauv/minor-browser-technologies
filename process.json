@@ -1,4 +1,4 @@
 {
-  "script": "index.js",
-  "name": "iot-sensors",
+  "script": "server.js",
+  "name": "minor-browser-technologies",
 }
