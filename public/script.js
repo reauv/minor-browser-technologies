@@ -32,9 +32,8 @@
             var el = document.querySelector('[data-result-id="' + result.id + '"]');
             var barEl = el.querySelector('.js-bar-fill');
             var voteEl = el.querySelector('.js-vote-count');
-            var percentage = result.percentage || 1;
             voteEl.innerHTML = result.votes;
-            barEl.style.width = percentage + '%';
+            barEl.style.width = result.percentage + '%';
         });
     };
 

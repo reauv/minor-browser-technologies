@@ -27,6 +27,7 @@ button {
     height: 100%;
     border-radius: 2px;
     transition: width 0.2s ease-in;
+    min-width: 2px;
 }
 
 .result-vote-count {
