@@ -3,13 +3,14 @@
         <h1>Results</h1>
         <p>Who is your favorite teacher?</p>
     </header>
-    <ul class="result-list">
+    <ul class="result-list" aria-live="polite">
     {{#each votesByAnswers}}
         <li class="result" data-result-id={{id}}>
             <div class="result-header">
                 <span class="result-label">{{label}}</span>
                 <span class="result-vote-count">
-                    (<span class="js-vote-count">{{ votes }}</span> votes)
+                    (<span class="js-vote-count">{{ votes }}</span> votes -
+                    <span class="js-vote-percentage">{{ percentage }}</span>%)
                 </span>
             </div>
             <div class="result-bar">

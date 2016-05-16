@@ -31,8 +31,10 @@
         results.forEach(function(result) {
             var el = document.querySelector('[data-result-id="' + result.id + '"]');
             var barEl = el.querySelector('.js-bar-fill');
-            var voteEl = el.querySelector('.js-vote-count');
-            voteEl.innerHTML = result.votes;
+            var voteCountEl = el.querySelector('.js-vote-count');
+            var votePercentageEl = el.querySelector('.js-vote-percentage');
+            voteCountEl.innerHTML = result.votes;
+            votePercentageEl.innerHTML = result.percentage;
             barEl.style.width = result.percentage + '%';
         });
     };
@@ -44,6 +46,7 @@
 
     function showResults() {
         resultsContainer.style.display = 'block';
+        resultsContainer.removeAttribute('hidden');
     }
 
     function addClass(el, className) {

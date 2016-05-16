@@ -61,7 +61,7 @@ function getVotesByAnswers() {
             return vote.answer === answer.id;
         }).length;
 
-        answer.percentage = answer.votes / votes.length * 100;
+        answer.percentage = (answer.votes / votes.length * 100).toFixed(2);
 
         return answer;
     });
