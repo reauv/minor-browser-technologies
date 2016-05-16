@@ -52,9 +52,6 @@ was how to recognize WebSockets client to see if they already voted because you 
 cookies with WebSocket connections. A tip on StackOverflow suggested using the query parameters
 of the connection to pass the ID of the client from the cookie.
 
-## Demo
-http://browser.rovansteen.nl
-
 ## Browser support
 
 ### JavaScript (AJAX requests)
@@ -71,7 +68,7 @@ http://browser.rovansteen.nl
 * Opera 12.1+
 * Safari 7.0+
 
-### Accessibility
+## Accessibility
 Because the poll form and results are relatively simple in terms of interaction
 and displaying data to the end-user the accessibility is good. The form uses
 native form elements and is therefore accessible for everyone. The displaying
@@ -81,4 +78,7 @@ of the bar indicates the amount of votes. For people that are not able to see th
 the amount of votes and the percentage is also in text. To improve the accessibilty
 I also added `aria-live` attribute to the list of results so that screen readers
 can notify the user when the results are updated.
+
+## Demo
+http://browser.rovansteen.nl
 
