@@ -17,6 +17,11 @@ h1 {
     max-width: 20em;
 }
 
+.result-list {
+    list-style: none;
+    padding: 0;
+}
+
 .result {
     margin-bottom: 1em;
 }
