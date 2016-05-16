@@ -1,10 +1,14 @@
-<form id="form" method="POST">
-    {{#each answers}}
-        <div>
-            <input type="radio" name="answer" value="{{id}}" id="answer-{{id}}" class="answer">
-            <label for="answer-{{id}}">{{label}}</label>
-        </div>
-    {{/each}}
+<form id="form" method="POST" class="form">
+    <h1>Question</h1>
+    <fieldset>
+        <legend>Who is your favorite teacher?</legend>
+        {{#each answers}}
+            <div>
+                <input type="radio" name="answer" value="{{id}}" id="answer-{{id}}" class="answer">
+                <label for="answer-{{id}}">{{label}}</label>
+            </div>
+        {{/each}}
+    </fieldset>
     <button type="submit" id="vote">Vote</button>
 </form>
 
