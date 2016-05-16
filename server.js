@@ -4,6 +4,7 @@ var path = require('path');
 var http = require('http');
 var env = require('./env');
 var express = require('express');
+var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var WebSocketServer = require('websocket').server;
@@ -15,6 +16,8 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var answers = [
@@ -96,10 +99,22 @@ app.get('/', function (request, response) {
 
     response.cookie('client_id', client.id, { expires: new Date(Date.now() + 900000) });
 
-    if(request.query.answer && !client.voted) {
+    if(client.voted) {
+        return response.render('results', { votesByAnswers: getVotesByAnswers() });
+    }
+
+    return response.render(
+        'vote', { answers: answers, votesByAnswers: getVotesByAnswers() }
+    );
+});
+
+app.post('/', function (request, response) {
+    var client = getClient(request.cookies.client_id);
+
+    if(request.body.answer && !client.voted) {
         client.voted = true;
         votes.push({
-            answer: request.query.answer,
+            answer: request.body.answer,
         });
     }
 
@@ -108,8 +123,7 @@ app.get('/', function (request, response) {
     }
 
     return response.render(
-        'vote',
-        { answers: answers, votesByAnswers: getVotesByAnswers() }
+        'vote', { answers: answers, votesByAnswers: getVotesByAnswers() }
     );
 });
 

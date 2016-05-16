@@ -18,5 +18,8 @@
     "hbs": "^4.0.0",
     "nodemon": "^1.9.1",
     "websocket": "^1.0.22"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.1"
   }
 }

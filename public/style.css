@@ -1,3 +1,7 @@
+html.js #refresh {
+    display: none;
+}
+
 body, button, input, textarea {
     font-family: 'Open Sans', sans-serif;
     color: #222831;

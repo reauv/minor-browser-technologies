@@ -1,21 +1,21 @@
 # Browser technologies
 
 ## Demo
-http://browser.rovansteen.nl:8080
+http://browser.rovansteen.nl
 
 ## Features used & supported
 
 ### AJAX requests
 * Chrome 1+
 * Firefox 1+
-* IE5+
+* IE9+
 * Opera 1+
 * Safari 1.2+
 
 ### Websockets
 * Chrome 16+
 * Firefox 11+
-* IE10+
+* Edge+
 * Opera 12.10+
 * Safari 6.0+
 

@@ -1,9 +1,31 @@
 (function() {
+
+
     var resultsContainer = document.querySelector('#results');
     var formContainer = document.querySelector('#form');
     var content = document.querySelector('#content');
     var voteButton = document.querySelector('#vote');
     var WEBSOCKET_HOST = window.WEBSOCKET_URL;
+
+    function hasRequirements() {
+        return (
+            !!document.querySelector &&
+            !!Function.prototype.bind
+        );
+    }
+
+    function isIE() {
+        var nav = navigator.userAgent.toLowerCase();
+
+        return (nav.indexOf('msie') != -1)
+            ? parseInt(nav.split('msie')[1])
+            : false;
+    }
+
+    function patchConsole() {
+        if (!window.console) window.console = {};
+        if (!window.console.log) window.console.log = function () { };
+    }
 
     function updateResults(results) {
         results.forEach(function(result) {
@@ -16,6 +38,7 @@
         });
     };
 
+
     function hideForm() {
         formContainer.style.display = 'none';
     }
@@ -24,28 +47,39 @@
         resultsContainer.style.display = 'block';
     }
 
+    function addClass(el, className) {
+        if (el.classList) {
+          el.classList.add(className);
+        } else {
+          el.className += ' ' + className;
+        }
+    }
+
     ajax = {
         fetchResults: function() {
             var request = new XMLHttpRequest();
-            request.open('GET', '/api/results', true);
+            request.open('GET', '/api/results?' + Date.now(), true);
             request.send();
 
             request.onload = function() {
                 if (request.status >= 200 && request.status < 400) {
                     var data = JSON.parse(request.responseText);
-                    hideForm();
-                    showResults();
+                    if (formContainer) {
+                        hideForm();
+                        showResults();
+                    }
+
                     updateResults(data);
                 }
             }
         },
 
-        onVoteButtonClick: function() {
+        onVoteButtonClick: function(event) {
             var answer = document.querySelector('input[name="answer"]:checked');
             var value = answer.value;
 
             var request = new XMLHttpRequest();
-            request.open('GET', '/api/vote/' + value, true);
+            request.open('GET', '/api/vote/' + value + '?' + Date.now(), true);
             request.send();
 
             request.onload = function () {
@@ -63,6 +97,8 @@
 
             if(voteButton) {
                 voteButton.addEventListener('click', this.onVoteButtonClick.bind(this));
+            } else {
+                setInterval(this.fetchResults, 6000);
             }
         }
     },
@@ -139,11 +175,17 @@
         }
     }
 
+    if(!hasRequirements() || (isIE() && isIE() < 9)) {
+        return false;
+    }
+
+    patchConsole();
+
     if('WebSocket' in window) {
-        document.querySelector('html').classList.add('js');
         websockets.init();
     } else {
-        document.querySelector('html').classList.add('js');
         ajax.init();
     }
+
+    addClass(document.querySelector('html'), 'js');
 }());
