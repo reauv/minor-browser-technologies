@@ -1,0 +1,15 @@
+<div>
+    {{#each votesByAnswers}}
+        <div class="result" data-result-id={{id}}>
+            <div class="result-header">
+                <span class="result-label">{{label}}</span>
+                <span class="result-vote-count">
+                    (<span class="js-vote-count">{{ votes }}</span> votes)
+                </span>
+            </div>
+            <div class="result-bar">
+                <div class="js-bar-fill result-bar-fill" style="width:{{ percentage }}%"></div>
+            </div>
+        </div>
+    {{/each}}
+</div>

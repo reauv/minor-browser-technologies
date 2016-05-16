@@ -1,0 +1,36 @@
+body, button, input, textarea {
+    font-family: 'Open Sans', sans-serif;
+    color: #222831;
+}
+
+button {
+    font-size: 100%;
+    margin: 1em 0;
+    padding: 0.5em;
+}
+
+.result {
+    margin-bottom: 1em;
+}
+
+.result-header {
+    margin-bottom: 0.25em;
+}
+
+.result-bar {
+    width: 350px;
+    height: 20px;
+}
+
+.result-bar-fill {
+    background: #00ADB5;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.2s ease-in;
+}
+
+.result-vote-count {
+    color: #393E46;
+    font-size: 0.7em;
+    text-transform: uppercase;
+}

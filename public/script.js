@@ -6,11 +6,13 @@
     var WEBSOCKET_HOST = window.WEBSOCKET_URL;
 
     function updateResults(results) {
-        resultsContainer.innerHTML = '';
         results.forEach(function(result) {
-            var el = document.createElement('div');
-            el.innerHTML = result.label + ' - ' + result.votes + ' votes'
-            resultsContainer.appendChild(el);
+            var el = document.querySelector('[data-result-id="' + result.id + '"]');
+            var barEl = el.querySelector('.js-bar-fill');
+            var voteEl = el.querySelector('.js-vote-count');
+            var percentage = result.percentage || 1;
+            voteEl.innerHTML = result.votes;
+            barEl.style.width = percentage + '%';
         });
     };
 

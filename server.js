@@ -1,4 +1,5 @@
 var fs = require('fs');
+var hbs = require('hbs');
 var path = require('path');
 var http = require('http');
 var env = require('./env');
@@ -11,6 +12,7 @@ var app = express();
 var server = http.createServer(app);
 
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,6 +39,8 @@ function getVotesByAnswers() {
         answer.votes = votes.filter(function(vote) {
             return vote.answer === answer.id;
         }).length;
+
+        answer.percentage = answer.votes / votes.length * 100;
 
         return answer;
     });
@@ -100,15 +104,13 @@ app.get('/', function (request, response) {
     }
 
     if(client.voted) {
-        return response.render(
-            'results',
-            {
-                votesByAnswers: getVotesByAnswers(),
-            }
-        )
+        return response.render('results', { votesByAnswers: getVotesByAnswers() });
     }
 
-    return response.render('vote', { answers: answers });
+    return response.render(
+        'vote',
+        { answers: answers, votesByAnswers: getVotesByAnswers() }
+    );
 });
 
 /**
